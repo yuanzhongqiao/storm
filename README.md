@@ -135,38 +135,7 @@ pip install -r requirements.txt" tabindex="0" role="button">
 <span class="pl-s1">engine_args</span> <span class="pl-c1">=</span> <span class="pl-v">STORMWikiRunnerArguments</span>(...)
 <span class="pl-s1">rm</span> <span class="pl-c1">=</span> <span class="pl-v">YouRM</span>(<span class="pl-s1">ydc_api_key</span><span class="pl-c1">=</span><span class="pl-s1">os</span>.<span class="pl-en">getenv</span>(<span class="pl-s">'YDC_API_KEY'</span>), <span class="pl-s1">k</span><span class="pl-c1">=</span><span class="pl-s1">engine_args</span>.<span class="pl-s1">search_top_k</span>)
 <span class="pl-s1">runner</span> <span class="pl-c1">=</span> <span class="pl-v">STORMWikiRunner</span>(<span class="pl-s1">engine_args</span>, <span class="pl-s1">lm_configs</span>, <span class="pl-s1">rm</span>)</pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="import os
-from knowledge_storm import STORMWikiRunnerArguments, STORMWikiRunner, STORMWikiLMConfigs
-from knowledge_storm.lm import OpenAIModel
-from knowledge_storm.rm import YouRM
-
-lm_configs = STORMWikiLMConfigs()
-openai_kwargs = {
-    'api_key': os.getenv(&quot;OPENAI_API_KEY&quot;),
-    'temperature': 1.0,
-    'top_p': 0.9,
-}
-# STORM is a LM system so different components can be powered by different models to reach a good balance between cost and quality.
-# For a good practice, choose a cheaper/faster model for `conv_simulator_lm` which is used to split queries, synthesize answers in the conversation.
-# Choose a more powerful model for `article_gen_lm` to generate verifiable text with citations.
-gpt_35 = OpenAIModel(model='gpt-3.5-turbo', max_tokens=500, **openai_kwargs)
-gpt_4 = OpenAIModel(model='gpt-4o', max_tokens=3000, **openai_kwargs)
-lm_configs.set_conv_simulator_lm(gpt_35)
-lm_configs.set_question_asker_lm(gpt_35)
-lm_configs.set_outline_gen_lm(gpt_4)
-lm_configs.set_article_gen_lm(gpt_4)
-lm_configs.set_article_polish_lm(gpt_4)
-# Check out the STORMWikiRunnerArguments class for more configurations.
-engine_args = STORMWikiRunnerArguments(...)
-rm = YouRM(ydc_api_key=os.getenv('YDC_API_KEY'), k=engine_args.search_top_k)
-runner = STORMWikiRunner(engine_args, lm_configs, rm)" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+    
   </div></div>
 <p dir="auto"><font _mstmutation="1" _msttexthash="86363628" _msthash="283">该实例可以通过简单的方法触发：</font><code>STORMWikiRunner</code><code>run</code></p>
 <div class="highlight highlight-source-python notranslate position-relative overflow-auto" dir="auto"><pre><span class="pl-s1">topic</span> <span class="pl-c1">=</span> <span class="pl-en">input</span>(<span class="pl-s">'Topic: '</span>)
@@ -179,23 +148,7 @@ runner = STORMWikiRunner(engine_args, lm_configs, rm)" tabindex="0" role="button
 )
 <span class="pl-s1">runner</span>.<span class="pl-en">post_run</span>()
 <span class="pl-s1">runner</span>.<span class="pl-en">summary</span>()</pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="topic = input('Topic: ')
-runner.run(
-    topic=topic,
-    do_research=True,
-    do_generate_outline=True,
-    do_generate_article=True,
-    do_polish_article=True,
-)
-runner.post_run()
-runner.summary()" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+    
   </div></div>
 <ul dir="auto">
 <li><code>do_research</code><font _mstmutation="1" _msttexthash="381668183" _msthash="284">：如果为 True，则模拟具有不同视角的对话以收集有关该主题的信息;否则，加载结果。</font></li>
@@ -243,51 +196,7 @@ runner.summary()" tabindex="0" role="button">
                                <span class="pl-s1">runner_argument</span><span class="pl-c1">=</span><span class="pl-s1">runner_argument</span>,
                                <span class="pl-s1">logging_wrapper</span><span class="pl-c1">=</span><span class="pl-s1">logging_wrapper</span>,
                                <span class="pl-s1">rm</span><span class="pl-c1">=</span><span class="pl-s1">bing_rm</span>)</pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="from knowledge_storm.collaborative_storm.engine import CollaborativeStormLMConfigs, RunnerArgument, CoStormRunner
-from knowledge_storm.lm import OpenAIModel
-from knowledge_storm.logging_wrapper import LoggingWrapper
-from knowledge_storm.rm import BingSearch
-
-# Co-STORM adopts the same multi LM system paradigm as STORM 
-lm_config: CollaborativeStormLMConfigs = CollaborativeStormLMConfigs()
-openai_kwargs = {
-    &quot;api_key&quot;: os.getenv(&quot;OPENAI_API_KEY&quot;),
-    &quot;api_provider&quot;: &quot;openai&quot;,
-    &quot;temperature&quot;: 1.0,
-    &quot;top_p&quot;: 0.9,
-    &quot;api_base&quot;: None,
-} 
-question_answering_lm = OpenAIModel(model=gpt_4o_model_name, max_tokens=1000, **openai_kwargs)
-discourse_manage_lm = OpenAIModel(model=gpt_4o_model_name, max_tokens=500, **openai_kwargs)
-utterance_polishing_lm = OpenAIModel(model=gpt_4o_model_name, max_tokens=2000, **openai_kwargs)
-warmstart_outline_gen_lm = OpenAIModel(model=gpt_4o_model_name, max_tokens=500, **openai_kwargs)
-question_asking_lm = OpenAIModel(model=gpt_4o_model_name, max_tokens=300, **openai_kwargs)
-knowledge_base_lm = OpenAIModel(model=gpt_4o_model_name, max_tokens=1000, **openai_kwargs)
-
-lm_config.set_question_answering_lm(question_answering_lm)
-lm_config.set_discourse_manage_lm(discourse_manage_lm)
-lm_config.set_utterance_polishing_lm(utterance_polishing_lm)
-lm_config.set_warmstart_outline_gen_lm(warmstart_outline_gen_lm)
-lm_config.set_question_asking_lm(question_asking_lm)
-lm_config.set_knowledge_base_lm(knowledge_base_lm)
-
-# Check out the Co-STORM's RunnerArguments class for more configurations.
-topic = input('Topic: ')
-runner_argument = RunnerArgument(topic=topic, ...)
-logging_wrapper = LoggingWrapper(lm_config)
-bing_rm = BingSearch(bing_search_api_key=os.environ.get(&quot;BING_SEARCH_API_KEY&quot;),
-                     k=runner_argument.retrieve_top_k)
-costorm_runner = CoStormRunner(lm_config=lm_config,
-                               runner_argument=runner_argument,
-                               logging_wrapper=logging_wrapper,
-                               rm=bing_rm)" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+    
   </div></div>
 <p dir="auto"><font _mstmutation="1" _msttexthash="46828210" _msthash="291">可以使用 和 方法调用实例。</font><code>CoStormRunner</code><code>warmstart()</code><code>step(...)</code></p>
 <div class="highlight highlight-source-python notranslate position-relative overflow-auto" dir="auto"><pre><span class="pl-c"># Warm start the system to build shared conceptual space between Co-STORM and users</span>
@@ -304,27 +213,7 @@ costorm_runner = CoStormRunner(lm_config=lm_config,
 <span class="pl-s1">costorm_runner</span>.<span class="pl-s1">knowledge_base</span>.<span class="pl-en">reorganize</span>()
 <span class="pl-s1">article</span> <span class="pl-c1">=</span> <span class="pl-s1">costorm_runner</span>.<span class="pl-en">generate_report</span>()
 <span class="pl-en">print</span>(<span class="pl-s1">article</span>)</pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="# Warm start the system to build shared conceptual space between Co-STORM and users
-costorm_runner.warm_start()
-
-# Step through the collaborative discourse 
-# Run either of the code snippets below in any order, as many times as you'd like
-# To observe the conversation:
-conv_turn = costorm_runner.step()
-# To inject your utterance to actively steer the conversation:
-costorm_runner.step(user_utterance=&quot;YOUR UTTERANCE HERE&quot;)
-
-# Generate report based on the collaborative discourse
-costorm_runner.knowledge_base.reorganize()
-article = costorm_runner.generate_report()
-print(article)" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+    
   </div></div>
 <div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto" _msttexthash="32015126" _msthash="292">示例脚本快速入门</h2><a id="user-content-quick-start-with-example-scripts" class="anchor" aria-label="永久链接：示例脚本快速入门" href="#quick-start-with-example-scripts" _mstaria-label="1317914" _msthash="293"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
 <p dir="auto" _msttexthash="352335230" _msthash="294">我们在 <a href="/stanford-oval/storm/blob/main/examples" _istranslated="1">examples 文件夹中</a>提供了脚本，作为运行具有不同配置的 STORM 和 Co-STORM 的快速入门。</p>
@@ -339,23 +228,7 @@ AZURE_API_BASE=<span class="pl-s"><span class="pl-pds">"</span>your_azure_api_ba
 AZURE_API_VERSION=<span class="pl-s"><span class="pl-pds">"</span>your_azure_api_version<span class="pl-pds">"</span></span>
 <span class="pl-c"><span class="pl-c">#</span> Set up You.com search API key.</span>
 YDC_API_KEY=<span class="pl-s"><span class="pl-pds">"</span>your_youcom_api_key<span class="pl-pds">"</span></span></pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="# Set up OpenAI API key.
-OPENAI_API_KEY=&quot;your_openai_api_key&quot;
-# If you are using the API service provided by OpenAI, include the following line:
-OPENAI_API_TYPE=&quot;openai&quot;
-# If you are using the API service provided by Microsoft Azure, include the following lines:
-OPENAI_API_TYPE=&quot;azure&quot;
-AZURE_API_BASE=&quot;your_azure_api_base_url&quot;
-AZURE_API_VERSION=&quot;your_azure_api_version&quot;
-# Set up You.com search API key.
-YDC_API_KEY=&quot;your_youcom_api_key&quot;" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+    
   </div></div>
 <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto" _msttexthash="8329854" _msthash="296">STORM 示例</h3><a id="user-content-storm-examples" class="anchor" aria-label="永久链接：STORM 示例" href="#storm-examples" _mstaria-label="532896" _msthash="297"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
 <p dir="auto"><strong _msttexthash="107712722" _msthash="298">要使用默认配置的 <code _istranslated="1">gpt</code> 系列模型运行 STORM：</strong></p>
@@ -367,20 +240,7 @@ YDC_API_KEY=&quot;your_youcom_api_key&quot;" tabindex="0" role="button">
     --do-generate-outline \
     --do-generate-article \
     --do-polish-article</pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="python examples/storm_examples/run_storm_wiki_gpt.py \
-    --output-dir $OUTPUT_DIR \
-    --retriever you \
-    --do-research \
-    --do-generate-outline \
-    --do-generate-article \
-    --do-polish-article" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+     
   </div></div>
 <p dir="auto" _msttexthash="236751619" _msthash="300"><strong _istranslated="1">要使用您最喜欢的语言模型或基于您自己的语料库运行 STORM：</strong>查看 <a href="/stanford-oval/storm/blob/main/examples/storm_examples/README.md" _istranslated="1">examples/storm_examples/README.md</a>。</p>
 <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto" _msttexthash="10373038" _msthash="301">Co-STORM 示例</h3><a id="user-content-co-storm-examples" class="anchor" aria-label="永久链接：Co-STORM 示例" href="#co-storm-examples" _mstaria-label="634244" _msthash="302"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
@@ -392,16 +252,7 @@ YDC_API_KEY=&quot;your_youcom_api_key&quot;" tabindex="0" role="button">
 <div class="highlight highlight-source-shell notranslate position-relative overflow-auto" dir="auto"><pre>python examples/costorm_examples/run_costorm_gpt.py \
     --output-dir <span class="pl-smi">$OUTPUT_DIR</span> \
     --retriever bing</pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="python examples/costorm_examples/run_costorm_gpt.py \
-    --output-dir $OUTPUT_DIR \
-    --retriever bing" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+     
   </div></div>
 <div class="markdown-heading" dir="auto"><h2 tabindex="-1" class="heading-element" dir="auto" _msttexthash="21075613" _msthash="306">管道的自定义</h2><a id="user-content-customization-of-the-pipeline" class="anchor" aria-label="永久链接：管道的自定义" href="#customization-of-the-pipeline" _mstaria-label="1202201" _msthash="307"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
 <div class="markdown-heading" dir="auto"><h3 tabindex="-1" class="heading-element" dir="auto" _msttexthash="6294106" _msthash="308">风暴</h3><a id="user-content-storm-2" class="anchor" aria-label="永久链接：STORM" href="#storm-2" _mstaria-label="246558" _msthash="309"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
@@ -459,28 +310,6 @@ YDC_API_KEY=&quot;your_youcom_api_key&quot;" tabindex="0" role="button">
       <span class="pl-s">year</span>=<span class="pl-s"><span class="pl-pds">{</span>2024<span class="pl-pds">}</span></span>,
       <span class="pl-s">booktitle</span>=<span class="pl-s"><span class="pl-pds">{</span>Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)<span class="pl-pds">}</span></span>
 }</pre><div class="zeroclipboard-container">
-    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w" value="@misc{jiang2024unknownunknowns,
-      title={Into the Unknown Unknowns: Engaged Human Learning through Participation in Language Model Agent Conversations}, 
-      author={Yucheng Jiang and Yijia Shao and Dekun Ma and Sina J. Semnani and Monica S. Lam},
-      year={2024},
-      eprint={2408.15232},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2408.15232}, 
-}
-
-@inproceedings{shao2024assisting,
-      title={{Assisting in Writing Wikipedia-like Articles From Scratch with Large Language Models}}, 
-      author={Yijia Shao and Yucheng Jiang and Theodore A. Kanell and Peter Xu and Omar Khattab and Monica S. Lam},
-      year={2024},
-      booktitle={Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)}
-}" tabindex="0" role="button">
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
-    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-</svg>
-      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
-    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
-</svg>
-    </clipboard-copy>
+    
   </div></div>
 </article></div>
